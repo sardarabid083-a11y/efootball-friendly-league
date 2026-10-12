@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eFootball Friendly Tournament</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f172a; color: #f8fafc; padding: 15px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2 { text-align: center; color: #38bdf8; margin-bottom: 20px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        table { width: 100%; border-collapse: collapse; text-align: center; margin-top: 10px; }
+        th, td { padding: 10px; border-bottom: 1px solid #334155; }
+        th { background-color: #0284c7; color: white; }
+        .form-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .form-row { display: flex; gap: 10px; }
+        select, input, button { padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; width: 100%; }
+        button { background-color: #10b981; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        button:hover { background-color: #059669; }
+        .btn-clear { background-color: #ef4444; margin-top: 10px; }
+        .btn-clear:hover { background-color: #dc2626; }
+        .match-card { background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; border-left: 4px solid #38bdf8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎮 eFootball Friendly Kings</h1>
+
+    <!-- 1. Leaderboard / Standings -->
+    <div class="card">
+        <h2>📊 Points Table</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>P</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard"></tbody>
+        </table>
+    </div>
+
+    <!-- 2. Add Match Result -->
+    <div class="card">
+        <h2>⚽ Add Match Result</h2>
+        <form id="matchForm">
+            <div class="form-row">
+                <div class="form-group" style="flex: 1;">
+                    <label>Player 1</label>
+                    <select id="p1" required></select>
+                </div>
+                <div class="form-group" style="width: 80px;">
+                    <label>Score</label>
+                    <input type="number" id="p1Goals" min="0" required placeholder="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex: 1;">
+                    <label>Player 2</label>
+                    <select id="p2" required></select>
+                </div>
+                <div class="form-group" style="width: 80px;">
+                    <label>Score</label>
+                    <input type="number" id="p2Goals" min="0" required placeholder="0">
+                </div>
+            </div>
+
+            <button type="submit">Post Match Result</button>
+        </form>
+    </div>
+
+    <!-- 3. Recent Matches History -->
+    <div class="card">
+        <h2>📜 Recent Matches</h2>
+        <div id="matchHistory"></div>
+        <button class="btn-clear" onclick="resetData()">Reset All Data</button>
+    </div>
+</div>
+
+<script>
+    // ৪ জন প্লেয়ারের নাম এখানে পরিবর্তন করতে পারেন
+    const playersList = ["Player 1", "Player 2", "Player 3", "Player 4"];
+
+    let matches = JSON.parse(localStorage.getItem('ef_matches')) || [];
+
+    // Select Option Populate
+    function populatePlayers() {
+        const p1Select = document.getElementById('p1');
+        const p2Select = document.getElementById
